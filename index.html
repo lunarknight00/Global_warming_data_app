@@ -1,0 +1,167 @@
+{# This simple template derives from ``base.html``. See ``base.html`` for
+   more information about template inheritance. #}
+{%- extends "base.html" %}
+
+{# Loads some of the macros included with Flask-Bootstrap. We are using the
+   utils module here to automatically render Flask's flashed messages in a
+   bootstrap friendly manner #}
+{% import "bootstrap/utils.html" as utils %}
+
+
+{# Inside the ``content`` is where you should place most of your own stuff.
+   This will keep scripts at the page end and a navbar you add on later
+   intact. #}
+{% block content %}
+  <div class="container">
+  {%- with messages = get_flashed_messages(with_categories=True) %}
+  {%- if messages %}
+      <div class="row clearfix">
+		<div class="col-md-12 column">
+        {{utils.flashed_messages(messages)}}
+        </div>
+      </div>
+  {%- endif %}
+  {%- endwith %}
+			<div class="jumbotron">
+				<h1>
+					Who get involved in Global Warming?
+				</h1>
+				<p>
+					This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.
+				</p>
+				<p>
+					 <a class="btn btn-primary btn-large" href="#">Learn more</a>
+				</p>
+			</div>
+			<div class="panel-group" id="panel-178849">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						 <a class="panel-title" data-toggle="collapse" data-parent="#panel-178849" href="#panel-element-232330">Searching by Region</a>
+					</div>
+					<div id="panel-element-232330" class="panel-collapse collapse in">
+						<div class="panel-body">
+                            <div class="panel-group" id = "panel-178850">
+				                <div class="panel panel-default">
+					                <div class="panel-heading">
+						                <a class="panel-title" data-toggle="collapse" data-parent="#panel-178850" href="#panel-element-232331">South Asia</a>
+                                    </div>
+                                    <div id="panel-element-232331" class="panel-collapse collapse">
+                                        <div class="panel-body">region countries</div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+					                <div class="panel-heading">
+						                <a class="panel-title" data-toggle="collapse" data-parent="#panel-178850" href="#panel-element-232332">Europe & Central Asia</a>
+                                    </div>
+                                    <div id="panel-element-232332" class="panel-collapse collapse">
+                                        <div class="panel-body">region countries</div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+					                <div class="panel-heading">
+						                <a class="panel-title" data-toggle="collapse" data-parent="#panel-178850" href="#panel-element-232333">Middle East & North Africa</a>
+                                    </div>
+                                    <div id="panel-element-232333" class="panel-collapse collapse">
+                                        <div class="panel-body">region countries</div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+					                <div class="panel-heading">
+						                <a class="panel-title" data-toggle="collapse" data-parent="#panel-178850" href="#panel-element-232334">East Asia & Pacific</a>
+                                    </div>
+                                    <div id="panel-element-232334" class="panel-collapse collapse">
+                                        <div class="panel-body">region countries</div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+					                <div class="panel-heading">
+						                <a class="panel-title" data-toggle="collapse" data-parent="#panel-178850" href="#panel-element-232335">Sub-Sahara Africa</a>
+                                    </div>
+                                    <div id="panel-element-232335" class="panel-collapse collapse">
+                                        <div class="panel-body">region countries</div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+					                <div class="panel-heading">
+						                <a class="panel-title" data-toggle="collapse" data-parent="#panel-178850" href="#panel-element-232336">Latin American & Caribbean</a>
+                                    </div>
+                                    <div id="panel-element-232336" class="panel-collapse collapse">
+                                        <div class="panel-body">region countries</div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+					                <div class="panel-heading">
+						                <a class="panel-title" data-toggle="collapse" data-parent="#panel-178850" href="#panel-element-232337">North America</a>
+                                    </div>
+                                    <div id="panel-element-232337" class="panel-collapse collapse">
+                                        <div class="panel-body">region countries</div>
+                                    </div>
+                                </div>
+                            </div>
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						 <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-178849" href="#panel-element-184726">Searching by input</a>
+					</div>
+					<div id="panel-element-184726" class="panel-collapse collapse">
+						<div class="panel-body">
+							<input type="text" class="form-control" placeholder="country">
+                            <button type="button" class="btn btn-default btn-primary">Search</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<div class="thumbnail">
+						<img alt="300x200" src="v3/default4.jpg" />
+						<div class="caption">
+							<h3>
+								Thumbnail label
+							</h3>
+							<p>
+								Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+							</p>
+							<p>
+								 <a class="btn btn-primary" href="#">Action</a> <a class="btn" href="#">Action</a>
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="thumbnail">
+						<img alt="300x200" src="v3/default5.jpg" />
+						<div class="caption">
+							<h3>
+								Thumbnail label
+							</h3>
+							<p>
+								Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+							</p>
+							<p>
+								 <a class="btn btn-primary" href="#">Action</a> <a class="btn" href="#">Action</a>
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="thumbnail">
+						<img alt="300x200" src="v3/default6.jpg" />
+						<div class="caption">
+							<h3>
+								Thumbnail label
+							</h3>
+							<p>
+								Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+							</p>
+							<p>
+								 <a class="btn btn-primary" href="#">Action</a> <a class="btn" href="#">Action</a>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+{%- endblock %}
