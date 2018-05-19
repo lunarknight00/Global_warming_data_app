@@ -45,9 +45,9 @@ def fetch_region_data(name):
 def country_preprocess(country,dic):
     first_keys = [i for i in dic.keys()]
     for k in dic[first_keys[1]]:
-        if k['_id'] == country:
+        if k['_id'].lower() == country.lower():
             data = k['statistic']
-    return (country,CO2_year(pd.DataFrame(statistics,columns = ['GDP','_id','co2_emission'])))
+    return (country,CO2_year(pd.DataFrame(data,columns = ['GDP','_id','co2_emission'])))
 
 # co2 line pandas datetime change preprocess
 # output a two column data frame
@@ -57,15 +57,27 @@ def CO2_year(df):
     processed['_id'] = pd.to_datetime(processed['_id'])
     return processed
 
+# find max y range of the plot
+def find_y_max_range(df)
+	number = round(float(max(df['co2_emission'])))
+	count = 0
+	while number != 0:
+		number = number // 10
+		count += 1  
 
+	number // (10 ** (count -1) )
+	if count > 1:
+		max_y_range = (number // (10 ** (count-1) ) +1 ) * (10 ** 5)
+	else:
+		max_y_range = 1
+	return max_y_range
 
 ### plot line change of one country
 
 def plot_country(country,dic):
     name,processed = country_preprocess(country,dic)
-    processed = CO2_year(processed)
-    p = figure(plot_width=800, plot_height=250, x_axis_type="datetime")
-    p.line(processed['_id'], processed['co2_emission'], color='navy', alpha=0.5,name=country)
+    p = figure(plot_width=800,y_range = (0,find_y_max_range(processed)),plot_height=250, x_axis_type="datetime")
+    p.line(processed['_id'], processed['co2_emission'],line_width = 4,color='navy', alpha=0.5,name=country)
     return p
 
 
@@ -92,24 +104,20 @@ def plot_region(data,region):
     countries = [processed[i].columns[1] for i in range(nums)]
     date_column = processed[0]['year']
     co2 = [processed[i][processed[i].columns[1]] for i in range(nums)]
-    
+    range_y = max(find_y_max_range(co2[i]) for i in range(nums))
     #initialize the figure
     numlines=len(co2)
     mypalette=inferno(numlines)
-    
-    p = figure(plot_width=1200, plot_height=600,x_axis_type="datetime",title="CO2 emissions")
-
+    p = figure(plot_width=1200, plot_height=600,y_range = (0,range_y),x_axis_type="datetime",title="CO2 emissions")
     p.grid.grid_line_alpha=0.3
     p.xaxis.axis_label = 'Date'
     p.yaxis.axis_label = 'Co2 emissions'
-
     for i in range(len(countries)):
         p.line(date_column,co2[i],color=mypalette[i],legend = countries[i])
     p.legend.location = "top_left"
     return p
 
 # return one country statistics as chart
-
 def co2_stat(country,dic):
     name,processed = country_preprocess(country,dic)
     processed.columns = ['year',name]
