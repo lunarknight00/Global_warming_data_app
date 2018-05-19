@@ -47,7 +47,7 @@ def country_preprocess(country,dic):
     for k in dic[first_keys[1]]:
         if k['_id'].lower() == country.lower():
             data = k['statistic']
-    return (country,CO2_year(pd.DataFrame(data,columns = ['GDP','_id','co2_emission'])))
+    return (country,pd.DataFrame(data,columns = ['GDP','_id','co2_emission']))
 
 # co2 line pandas datetime change preprocess
 # output a two column data frame
@@ -76,6 +76,7 @@ def find_y_max_range(df)
 
 def plot_country(country,dic):
     name,processed = country_preprocess(country,dic)
+	processed = CO2_year(processed)
     p = figure(plot_width=800,y_range = (0,find_y_max_range(processed)),plot_height=250, x_axis_type="datetime")
     p.line(processed['_id'], processed['co2_emission'],line_width = 4,color='navy', alpha=0.5,name=country)
     return p
@@ -118,12 +119,25 @@ def plot_region(data,region):
     return p
 
 # return one country statistics as chart
-def co2_stat(country,dic):
+def statistics_table(country,dic):
     name,processed = country_preprocess(country,dic)
-    processed.columns = ['year',name]
+	processed.columns = ['GDP','year','Co2 emission']
+	d1 = processed['GDP']
+	d2 = processed['Co2 emission']
+	result = pd.concat([d1,d2],axis=1, join_axes=[d1.index])
+	result = result.apply(pd.to_numeric, errors='ignore')
+	result.describe() 
     return processed.describe()
 
+def _preprocess_multi_lines_statics(list_df):
+    return [i.iloc[:,1] for i in list_df]
 
+def multi_statistics_table(data,region):
+	processed = _preprocess_multi_lines_statics(region_preprocess(data,region))
+	result = pd.concat(processed,axis=1, join_axes=[d1.index])
+	result = result.apply(pd.to_numeric, errors='ignore')
+	return result.describe()
+	 
 '''
 implement example
 
