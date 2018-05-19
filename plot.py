@@ -127,7 +127,7 @@ def statistics_table(country,dic):
 	result = pd.concat([d1,d2],axis=1, join_axes=[d1.index])
 	result = result.apply(pd.to_numeric, errors='ignore')
 	result.describe() 
-    return processed.describe()
+    return processed.describe().to_html()
 
 def _preprocess_multi_lines_statics(list_df):
     return [i.iloc[:,1] for i in list_df]
@@ -136,7 +136,7 @@ def multi_statistics_table(data,region):
 	processed = _preprocess_multi_lines_statics(region_preprocess(data,region))
 	result = pd.concat(processed,axis=1, join_axes=[d1.index])
 	result = result.apply(pd.to_numeric, errors='ignore')
-	return result.describe()
+	return result.describe().to_html()
 	 
 '''
 implement example
