@@ -73,7 +73,7 @@ def plotting(country):
 @frontend.route("/admin/plotting_region/<region>", methods=['GET'])
 def plotting_region(region):
     region = region.replace('_', ' ')
-    region ='South Asia'
+    # region ='South Asia'
     data = fetch_region_data(region)
     p = plot_region(data)
     script,div = components(p)
