@@ -60,35 +60,24 @@ def get_name():
         return jsonify('no such data in the database'),404
 
 
-@frontend.route("/admin/plot", methods=['GET'])
-def plot_region(data, region):
-    nums = len(region_preprocess(data, region))
-    processed = region_preprocess(data, region)
-    countries = [processed[i].columns[1] for i in range(nums)]
-    date_column = processed[0]['year']
-    co2 = [processed[i][processed[i].columns[1]] for i in range(nums)]
 
-    # initialize the figure
-    numlines = len(co2)
-    mypalette = inferno(numlines)
-
-    p = figure(plot_width=1200, plot_height=600, x_axis_type="datetime", title="CO2 emissions")
-
-    p.grid.grid_line_alpha = 0.3
-    p.xaxis.axis_label = 'Date'
-    p.yaxis.axis_label = 'Co2 emissions'
-
-    for i in range(len(countries)):
-        p.line(date_column, co2[i], color=mypalette[i], legend=countries[i])
-    p.legend.location = "top_left"
-    return p
 
 @frontend.route("/admin/plotting/<country>", methods=['GET'])
 def plotting(country):
+    country = country.replace('_',' ')
     dic = fetch_country_data(country)
     p = plot_country(country, dic)
     script, div = components(p)
     return render_template("result.html", script = script, div = div)
+
+@frontend.route("/admin/plotting_region/<region>", methods=['GET'])
+def plotting_region(region):
+    region = region.replace('_', ' ')
+    region ='South Asia'
+    data = fetch_region_data(region)
+    p = plot_region(data)
+    script,div = components(p)
+    return render_template("result.html", script=script, div=div)
 
 @frontend.route('/about_us')
 def about_us():
