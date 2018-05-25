@@ -19,16 +19,16 @@ nav.register_element('frontend_top', Navbar(
     Subgroup(
         'About us',
         View('About us', '.about_us'),
-        Link('Our GitHub', 'https://-----'),
+        Link('Our GitHub', 'https://github.com/lunarknight00/meshup_app'),
         Separator(),
         Text('Libo Zhuo'),
-        Link('Facebook', 'http://----'),
+        Link('Facebook', 'https://www.facebook.com/profile.php?id=100003725844785'),
         Separator(),
         Text('Charles Xiao'),
-        Link('Facebook', 'http://----'),
+        Link('Facebook', 'https://www.facebook.com/profile.php?id=100019738470628'),
         Separator(),
         Text('Yun Lu'),
-        Link('Facebook', 'http://----'))))
+        Link('Facebook', 'https://www.facebook.com/profile.php?id=100003946230232'))))
 
 
 @frontend.route("/admin/country", methods = ['GET'])
@@ -50,7 +50,6 @@ def get_name():
     name = request.args.get('region_name')
     print(name)
     connect('region')
-    connect('region')
     if name:
         for l in Region.objects:
             if name.lower() == l.name.lower():
@@ -64,20 +63,25 @@ def get_name():
 
 @frontend.route("/admin/plotting/<country>", methods=['GET'])
 def plotting(country):
-    country = country.replace('_',' ')
-    dic = fetch_country_data(country)
-    p = plot_country(country, dic)
-    script, div = components(p)
-    return render_template("result.html", script = script, div = div)
+    try:
+        country = (country[0].upper()+country[1:]).replace('_',' ')
+        dic = fetch_country_data(country)
+        p = plot_country(country, dic)
+        script, div = components(p)
+        return render_template("result.html", script = script, div = div,name=country)
+    except:
+        return render_template("404notfound.html")
 
 @frontend.route("/admin/plotting_region/<region>", methods=['GET'])
 def plotting_region(region):
-    region = region.replace('_', ' ')
-    # region ='South Asia'
-    data = fetch_region_data(region)
-    p = plot_region(data)
-    script,div = components(p)
-    return render_template("result.html", script=script, div=div)
+    try:
+        region = (region[0].upper()+region[1:]).replace('_', ' ')
+        data = fetch_region_data(region)
+        p = plot_region(data)
+        script,div = components(p)
+        return render_template("result.html", script=script, div=div, name=region)
+    except:
+        return render_template("404notfound.html")
 
 @frontend.route('/about_us')
 def about_us():
@@ -90,28 +94,9 @@ def index():
 
 @frontend.route('/admin/search', methods=['POST'])
 def search():
-    print('here')
     parser = reqparse.RequestParser()
     parser.add_argument('search', type=str)
     args = parser.parse_args()
     search_country = args.get("search")
     print(search_country)
 
-# Shows a long signup form, demonstrating form rendering.
-@frontend.route('/example-form/', methods=('GET', 'POST'))
-def example_form():
-    form = SignupForm()
-
-    if form.validate_on_submit():
-        # We don't have anything fancy in our application, so we are just
-        # flashing a message when a user completes the form successfully.
-        #
-        # Note that the default flashed messages rendering allows HTML, so
-        # we need to escape things if we input user values:
-        flash('Hello, {}. You have successfully signed up'
-              .format(escape(form.name.data)))
-
-        # In a real application, you may wish to avoid this tedious redirect.
-        return redirect(url_for('.index'))
-
-    return render_template('signup.html', form=form)
