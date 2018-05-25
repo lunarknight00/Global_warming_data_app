@@ -3,11 +3,11 @@ from flask_bootstrap import __version__ as FLASK_BOOTSTRAP_VERSION
 from flask_nav.elements import Navbar, View, Subgroup, Link, Text, Separator
 from markupsafe import escape
 from flask_restful import reqparse
-
 from .database import *
 from .plot import *
-from .forms import SignupForm
 from .nav import nav
+
+
 
 frontend = Blueprint('frontend', __name__)
 
@@ -29,35 +29,6 @@ nav.register_element('frontend_top', Navbar(
         Separator(),
         Text('Yun Lu'),
         Link('Facebook', 'https://www.facebook.com/profile.php?id=100003946230232'))))
-
-
-@frontend.route("/admin/country", methods = ['GET'])
-def get_region():
-    name = request.args.get('country_name')
-    connect('region')
-    if name:
-        for e in Region.objects:
-            country = e.to_json()
-            country = json.loads(country)
-            for country_name in country['country_in_region']:
-                if country_name['_id'].lower() == name.lower():
-                    return jsonify(country),200
-        return jsonify('no such data in database'),404
-
-
-@frontend.route("/admin/region",methods = ['GET'])
-def get_name():
-    name = request.args.get('region_name')
-    print(name)
-    connect('region')
-    if name:
-        for l in Region.objects:
-            if name.lower() == l.name.lower():
-                a = l.to_json()
-                e = json.loads(a)
-                return jsonify(e), 200
-        return jsonify('no such data in the database'),404
-
 
 
 

@@ -14,7 +14,6 @@ from bokeh.embed import components
 # use requests to fecth sigle country data,input value is country
 def fetch_country_data(name):
 	url = 'http://127.0.0.1:5000/admin/country'
-	# name is the courntry name user input in the webpage
 	query = {'country_name':name}
 	response = get(url,params=query)
 	return response.json()
@@ -45,7 +44,6 @@ def country_preprocess(country,dic):
 def CO2_year(df):
 	processed = df.iloc[:,1:3]
 	processed['_id'] = pd.to_datetime(processed['_id'])
-	print(processed)
 	return processed
 
 # find max y range of the plot
@@ -140,50 +138,3 @@ def multi_statistics_table(data, region):
 	result = pd.concat(processed,axis=1, join_axes=[d1.index])
 	result = result.apply(pd.to_numeric, errors='ignore')
 	return result.describe().to_html()
-
-'''
-implement example
-# Index page
-@app.route('/')
-def index():
-	# Determine the selected feature
-	current_feature_name = request.args.get("feature_name")
-	if current_feature_name == None:
-		current_feature_name = "Sepal Length"
-	# Create the plot
-	plot = create_figure(current_feature_name, 10)
-		
-	# Embed plot into HTML via Flask Render
-	script, div = components(plot)
-	return render_template("iris_index1.html", script=script, div=div,
-		feature_names=feature_names,  current_feature_name=current_feature_name)
-<html>
-<head>
-<link
-	href="http://cdn.pydata.org/bokeh/release/bokeh-0.12.5.min.css"
-	rel="stylesheet" type="text/css">
-<link
-	href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.5.min.css"
-	rel="stylesheet" type="text/css">
-<script src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.5.min.js"></script>
-<script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.5.min.js"></script>
-</head>
-<body>
-<H1>Iris Histogram</H1>
-<form action="/">
-<select name="feature_name">
-	{% for feature in feature_names %}
-		{% if feature == current_feature_name %}
-			<option selected value="{{ feature }}">{{ feature }}</option> 
-		{% else %} 
-			<option value="{{ feature }}">{{ feature }}</option> 
-		{% endif %}
-	{% endfor %}
-</select>
-<input type="submit">
-</form>
-{{ script|safe }}
-{{ div|safe }}
-</body>
-</html>
-'''

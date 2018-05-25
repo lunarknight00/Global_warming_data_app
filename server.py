@@ -1,11 +1,12 @@
-from flask import Flask,jsonify,request
-from database import *
+from flask import jsonify,request
+from mashup_app.database import *
 import json
-
-app = Flask(__name__)
-
+from mashup_app import create_app,database
 
 
+
+
+app = create_app()
 
 @app.route("/admin/delete/country",methods=['DELETE'])
 def delete_country():
@@ -98,6 +99,5 @@ def get_name():
 
 
 if __name__ == '__main__':
-    connect(host='mongodb://admin:admin@ds215370.mlab.com:15370/ass_3')
-    connect('region')
-    app.run()
+    database.connect(host='mongodb://admin:admin@ds215370.mlab.com:15370/ass_3')
+    app.run(debug=True)
