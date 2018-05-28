@@ -1,0 +1,9 @@
+flask
+flask-bootstrap
+flask-nav
+flask-debug
+mongoengine
+csv
+pandas
+bokeh
+flask-restful

@@ -1,0 +1,78 @@
+{%- extends "base.html" %}
+
+{% import "bootstrap/utils.html" as utils %}
+
+
+{% block script %}
+    {{super()}}
+	<!--<link-->
+		<!--href="http://cdn.pydata.org/bokeh/release/bokeh-0.12.16.min.css"-->
+		<!--rel="stylesheet" type="text/css">-->
+
+	<script src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.16.min.js"></script>
+
+    <script>
+        function myMap() {
+            var mapCanvas = document.getElementById("map");
+            var mapOptions = {
+                center: new google.maps.LatLng(51.5, -0.2),
+                zoom: 10
+            };
+            var map = new google.maps.Map(mapCanvas, mapOptions);
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCg98R9GfdNkDANjouOpeSq8tEnzM3SXjs&callback=myMap"></script>
+{%- endblock %}
+
+{% block content %}
+<body>
+    <div class="container">
+        <div class="row clearfix">
+		<div class="col-md-12 column">
+			<div class="jumbotron">
+				<h2 align="center">
+					The data of {{name}} between 1990-2014
+				</h2>
+				<p align="center">CO2 emmission UNIT: metric tons per capita</p>
+				<p align="center">GDP UNIT: per capita (constant 2010 US$)</p>
+			</div>
+		</div>
+	</div>
+	    <div class="row clearfix">
+		<div class="col-md-12 column">
+			<div align="center">
+			{{ script|safe }}
+			{{ div|safe }}
+			</div>
+            <!--<div id="map" style="width:100%;height:400px;">Map goes here</div>-->
+		</div>
+		<div class="col-md-12 column">
+			<div align="center">
+				<h2 align="center">
+					{{CO2}}
+				</h2>
+				{{table | safe}}
+			</div>
+		</div>
+			<br/>
+			<br/>
+			<div class="col-md-12 column">
+			<div align="center">
+				<h2 align="center">
+					{{GDP}}
+				</h2>
+				{{table_1 | safe}}
+			</div>
+		</div>
+			<br/>
+			<br/>
+			<div class="col-md-12 column">
+				<div align="center">
+					{{ script_1 | safe }}
+					{{ div_1 | safe}}
+				</div>
+			</div>
+	</div>
+</div>
+</body>
+{%- endblock %}
