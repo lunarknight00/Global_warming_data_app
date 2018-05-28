@@ -149,3 +149,51 @@ def scatter_country(country,dic):
 	p.yaxis.axis_label = 'Co2 emmisions'
 	p.circle(d1,d2,color = 'red',fill_alpha=0.2, size=10)
 	return p
+
+# plot gdp multilines
+# helper function
+
+def GDP_year(df):
+	d1 = df['_id']
+	d2 = df['GDP']
+	processed = pd.concat([d1,d2],axis=1, join_axes=[d1.index])
+	processed['_id'] = pd.to_datetime(processed['_id'])
+	return processed
+	
+
+def __country_preprocess(statistics,country):
+	data = GDP_year(pd.DataFrame(statistics,columns = ['GDP','_id','co2_emission']))
+	data.columns = ['year',country]
+	return data
+	
+
+def GDP_region_preprocess(data):
+	result = list()
+	first_keys = [i for i in data.keys()]
+	for d in data[first_keys[1]]:
+		result.append(__country_preprocess(d['statistic'],d['_id']))
+	return result
+
+	
+
+def plot_region_GDP(data):
+	nums = len(GDP_region_preprocess(data))
+	processed = GDP_region_preprocess(data)
+	countries = [processed[i].columns[1] for i in range(nums)]
+	date_column = processed[0]['year']
+	co2 = [processed[i][processed[i].columns[1]] for i in range(nums)]
+
+	#initialize the figure
+	numlines=len(co2)
+	mypalette=inferno(numlines)
+
+	p = figure(plot_width=1200, plot_height=600,x_axis_type="datetime",title="CO2 emissions")
+
+	p.grid.grid_line_alpha=0.3
+	p.xaxis.axis_label = 'Date'
+	p.yaxis.axis_label = 'Co2 emissions'
+
+	for i in range(len(countries)):
+		p.line(date_column,co2[i],color=mypalette[i],legend = countries[i])
+	p.legend.location = "top_left"
+	return p
