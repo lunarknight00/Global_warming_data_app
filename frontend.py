@@ -34,40 +34,66 @@ nav.register_element('frontend_top', Navbar(
 
 @frontend.route("/admin/plotting/<country>", methods=['GET'])
 def plotting(country):
-    try:
+    # try:
         country = (country[0].upper()+country[1:]).replace('_',' ')
         dic = fetch_country_data(country)
         p = plot_country(country, dic)
+        table = statistics_table(country, dic)
         script, div = components(p)
-        return render_template("result.html", script = script, div = div,name=country)
-    except:
-        return render_template("404notfound.html")
+        scatter_data = scatter_country(country, dic)
+        script_1, scatter = components(scatter_data)
+        return render_template("result.html", script = script, div = div, name=country, table=table, script_1 = script_1, scatter = scatter)
+    # except:
+    #     return render_template("404notfound.html")
 
 @frontend.route("/admin/plotting_region/<region>", methods=['GET'])
 def plotting_region(region):
-    try:
+    # try:
         region = (region[0].upper()+region[1:]).replace('_', ' ')
         data = fetch_region_data(region)
+        table = multi_statistics_table(data)
         p = plot_region(data)
         script,div = components(p)
-        return render_template("result.html", script=script, div=div, name=region)
-    except:
-        return render_template("404notfound.html")
 
-@frontend.route('/about_us')
+        return render_template("result.html", script=script, div=div, name=region,table=table)
+    # except:
+    #     return render_template("404notfound.html")
+
+@frontend.route('/about_us', methods = ['GET'])
 def about_us():
     return render_template('about_us.html')
-
 
 @frontend.route('/')
 def index():
     return render_template('index.html')
 
-@frontend.route('/admin/search', methods=['POST'])
+@frontend.route('/admin/search/', methods=['POST'])
 def search():
-    parser = reqparse.RequestParser()
-    parser.add_argument('search', type=str)
-    args = parser.parse_args()
-    search_country = args.get("search")
-    print(search_country)
+    keyword = request.form.get("search")
+    # print(keyword)
+    try:
+        region = keyword
+        data = fetch_region_data(region)
+        # print(data)
+        table = multi_statistics_table(data)
+
+        p = plot_region(data)
+        script, div = components(p)
+        return render_template("result.html", script=script, div=div, name=region, table=table)
+    except:
+        try:
+            country = keyword
+            dic = fetch_country_data(country)
+            p = plot_country(country, dic)
+            table = statistics_table(country, dic)
+            script, div = components(p)
+            scatter_data = scatter_country(country, dic)
+            script_1, scatter = components(scatter_data)
+            return render_template("result.html", script=script, div=div, name=country, table=table, script_1=script_1,
+                                   scatter=scatter)
+        except:
+            return render_template("404notfound.html"),404
+
+
+
 
