@@ -181,17 +181,17 @@ def plot_region_GDP(data):
 	processed = GDP_region_preprocess(data)
 	countries = [processed[i].columns[1] for i in range(nums)]
 	date_column = processed[0]['year']
-	co2 = [processed[i][processed[i].columns[1]] for i in range(nums)]
+	GDP = [processed[i][processed[i].columns[1]] for i in range(nums)]
 
 	#initialize the figure
-	numlines=len(co2)
+	numlines=len(GDP)
 	mypalette=inferno(numlines)
 
-	p = figure(plot_width=1200, plot_height=600,x_axis_type="datetime",title="CO2 emissions")
+	p = figure(plot_width=1200, plot_height=600,x_axis_type="datetime",title="GDP")
 
 	p.grid.grid_line_alpha=0.3
 	p.xaxis.axis_label = 'Date'
-	p.yaxis.axis_label = 'Co2 emissions'
+	p.yaxis.axis_label = 'GDP'
 
 	for i in range(len(countries)):
 		p.line(date_column,co2[i],color=mypalette[i],legend = countries[i])
