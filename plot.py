@@ -53,7 +53,6 @@ def find_y_max_range(df):
 	while number != 0:
 		number = number // 10
 		count += 1
-
 	if count > 1:
 		max_y_range = (number // (10 ** (count-1) ) +1 ) * (10 ** 5)
 	else:
@@ -65,7 +64,9 @@ def find_y_max_range(df):
 def plot_country(country,dic):
 	name,processed = country_preprocess(country,dic)
 	processed = CO2_year(processed)
-	p = figure(plot_width=800,y_range = (0,find_y_max_range(processed)),plot_height=250, x_axis_type="datetime")
+	p = figure(plot_width=1200,y_range = (0,find_y_max_range(processed)),plot_height=600, x_axis_type="datetime",title="CO2 emissions")
+	p.xaxis.axis_label = 'Date'
+	p.yaxis.axis_label = 'Co2 emissions'
 	p.line(processed['_id'], processed['co2_emission'],line_width = 4,color='navy', alpha=0.5,name=country)
 	return p
 
@@ -126,7 +127,7 @@ def statistics_table(country,dic):
 	result = pd.concat([d1,d2],axis=1, join_axes=[d1.index])
 	result = result.apply(pd.to_numeric, errors='ignore')
 	result.describe()
-	return result.describe().to_html()
+	return result.describe().T.to_html()
 
 def _preprocess_multi_lines_statics(list_df):
 	return [i.iloc[:,1] for i in list_df]
@@ -134,9 +135,9 @@ def _preprocess_multi_lines_statics(list_df):
 
 def multi_statistics_table(data):
 	processed = _preprocess_multi_lines_statics(region_preprocess(data))
-	result = pd.concat(processed,axis=1, join_axes=[d1.index])
+	result = pd.concat(processed,axis=1, join_axes=[processed[0].index])
 	result = result.apply(pd.to_numeric, errors='ignore')
-	return result.describe().to_html()
+	return result.describe().T.to_html()
 
 def scatter_country(country,dic):
 	name,processed = country_preprocess(country,dic)
