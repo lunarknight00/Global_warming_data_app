@@ -54,7 +54,6 @@ def find_y_max_range(df):
 		number = number // 10
 		count += 1
 
-	number // (10 ** (count -1) )
 	if count > 1:
 		max_y_range = (number // (10 ** (count-1) ) +1 ) * (10 ** 5)
 	else:
@@ -127,7 +126,7 @@ def statistics_table(country,dic):
 	result = pd.concat([d1,d2],axis=1, join_axes=[d1.index])
 	result = result.apply(pd.to_numeric, errors='ignore')
 	result.describe()
-	return processed.describe().to_html()
+	return result.describe().to_html()
 
 def _preprocess_multi_lines_statics(list_df):
 	return [i.iloc[:,1] for i in list_df]
@@ -138,3 +137,14 @@ def multi_statistics_table(data, region):
 	result = pd.concat(processed,axis=1, join_axes=[d1.index])
 	result = result.apply(pd.to_numeric, errors='ignore')
 	return result.describe().to_html()
+
+def scatter_country(country,dic):
+    name,processed = country_preprocess(country,dic)
+    processed.columns = ['GDP','year','Co2 emission']
+    d1 = processed['GDP']
+    d2 = processed['Co2 emission']
+    p = figure(title = "GDP vs Co2 emmisions")
+    p.xaxis.axis_label = 'GDP'
+    p.yaxis.axis_label = 'Co2 emmisions' 
+    p.circle(d1,d2,color = 'red',fill_alpha=0.2, size=10)
+    return p
