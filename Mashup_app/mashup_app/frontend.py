@@ -40,11 +40,7 @@ def plotting(country):
         p = plot_country(country, dic)
         table = statistics_table(country, dic)
         script, div = components(p)
-        # scatter_data = scatter_country(country, dic)
-        # print(scatter_data)
-        # script_1, scatter = components(scatter_data)
         return render_template("result.html", script = script, div = div, name=country, table=table)
-                               # script_1 = script_1, div_1 = scatter)
     except:
         return render_template("404notfound.html")
 
@@ -93,10 +89,7 @@ def search():
             p = plot_country(country, dic)
             table = statistics_table(country, dic)
             script, div = components(p)
-            # scatter_data = scatter_country(country, dic)
-            # script_1, scatter = components(scatter_data)
             return render_template("result.html", script=script, div=div, name=country, table=table)
-            # , script_1=script_1, scatter=scatter)
         except:
             return render_template("404notfound.html"),404
 
