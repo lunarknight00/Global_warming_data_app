@@ -139,6 +139,12 @@ def multi_statistics_table(data):
 	result = result.apply(pd.to_numeric, errors='ignore')
 	return result.describe().T.to_html()
 
+def multi_GDP_statistics_table(data):
+	processed = _preprocess_multi_lines_statics(GDP_region_preprocess(data))
+	result = pd.concat(processed,axis=1, join_axes=[processed[0].index])
+	result = result.apply(pd.to_numeric, errors='ignore')
+	return result.describe()
+
 def scatter_country(country,dic):
 	name,processed = country_preprocess(country,dic)
 	processed.columns = ['GDP','year','Co2 emission']
