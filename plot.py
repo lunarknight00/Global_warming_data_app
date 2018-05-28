@@ -191,7 +191,7 @@ def plot_region_GDP(data):
 
 	p.grid.grid_line_alpha=0.3
 	p.xaxis.axis_label = 'Date'
-	p.yaxis.axis_label = 'GDP'
+	p.yaxis.axis_label = 'Region GDP'
 
 	for i in range(len(countries)):
 		p.line(date_column,co2[i],color=mypalette[i],legend = countries[i])
