@@ -84,7 +84,6 @@ def get_region():
 @app.route("/admin/region",methods = ['GET'])
 def get_name():
     name = request.args.get('region_name')
-    print(name)
     connect('region')
     if name:
         for l in Region.objects:
