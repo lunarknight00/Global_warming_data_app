@@ -105,7 +105,7 @@ def plot_region(data):
 
 	p.grid.grid_line_alpha=0.3
 	p.xaxis.axis_label = 'Date'
-	p.yaxis.axis_label = 'Co2 emissions'
+	p.yaxis.axis_label = 'region Co2 emissions'
 
 	for i in range(len(countries)):
 		p.line(date_column,co2[i],color=mypalette[i],legend = countries[i])
