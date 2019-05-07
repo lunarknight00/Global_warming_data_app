@@ -1,9 +1,12 @@
-# meshup_app
-One Web app designed for global warming related data publishing
+# Global warming data app
 
-We use Flask to develop the app.
+One Web app designed for global warming related data
 
-The structure of building the app contains 3 parts frontend, RESTful api, backend
+This app provide a way to check the global warming data with respect to different locations and economic development.
+
+
+# Technitque, Flask/Pyhton/Javascript/CSS/HTML/MongoDB
+
 
 Data source:
 
